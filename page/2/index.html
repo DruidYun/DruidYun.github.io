@@ -135,7 +135,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">21</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">22</span></a>
 
   </li>
   </ul>
@@ -161,6 +161,102 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/17/mfc02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/DruidYun.jpg">
+      <meta itemprop="name" content="DruidYun">
+      <meta itemprop="description" content="如果你想做出让人享受的东西，那就享受做它的过程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="寻云的布洛克">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/17/mfc02/" class="post-title-link" itemprop="url">熟悉MFC绘图</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-17 13:36:20" itemprop="dateCreated datePublished" datetime="2021-09-17T13:36:20+08:00">2021-09-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-14 10:19:06" itemprop="dateModified" datetime="2022-03-14T10:19:06+08:00">2022-03-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>644</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p> 创建MFC应用时应用程序类型选择单个文档，和项目样式选择MFC standard</p>
+<p>pDC-&gt;Rectangle(CRect(P0, P1));//两点画矩形</p>
+<p>pDC-&gt;Ellipse(CRect(P0, P1));//两点画椭圆、圆</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CTestView::OnLButtonUp</span><span class="params">(UINT nFlags, CPoint point)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> 在此添加消息处理程序代码和/或调用默认值</span></span><br><span class="line">	P1 = point;</span><br><span class="line">	CDC* pDC = <span class="built_in">GetDC</span>();</span><br><span class="line">	CPen NewPen, *pOldPen;</span><br><span class="line">	NewPen.<span class="built_in">CreatePen</span>(PS_SOLID, <span class="number">3</span>, <span class="built_in">RGB</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">	pOldPen = pDC-&gt;<span class="built_in">SelectObject</span>(&amp;NewPen);<span class="comment">//将画笔选入设备描述表，并保存旧的画笔</span></span><br><span class="line">	CBrush NewBrush, *pOldBrush;</span><br><span class="line">	NewBrush.<span class="built_in">CreateSolidBrush</span>(<span class="built_in">RGB</span>(<span class="number">0</span>, <span class="number">128</span>, <span class="number">0</span>));</span><br><span class="line">	pOldBrush = pDC -&gt; <span class="built_in">SelectObject</span>(&amp;NewBrush);<span class="comment">//将画刷选入设备描述表，并保存旧的画刷</span></span><br><span class="line">	pDC-&gt;<span class="built_in">Ellipse</span>(<span class="built_in">CRect</span>(P0, P1));</span><br><span class="line">	<span class="built_in">ReleaseDC</span>(pDC);<span class="comment">//记得释放空间</span></span><br><span class="line">	NewPen.<span class="built_in">DeleteObject</span>();</span><br><span class="line">	NewBrush.<span class="built_in">DeleteObject</span>();</span><br><span class="line">	CView::<span class="built_in">OnLButtonUp</span>(nFlags, point);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+	<div>
+	  
+	</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1045,101 +1141,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/27/%E7%9C%9F%E7%94%B7%E4%BA%BA%E5%B0%B1%E4%B8%8A%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/DruidYun.jpg">
-      <meta itemprop="name" content="DruidYun">
-      <meta itemprop="description" content="如果你想做出让人享受的东西，那就享受做它的过程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="寻云的布洛克">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/27/%E7%9C%9F%E7%94%B7%E4%BA%BA%E5%B0%B1%E4%B8%8A%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/" class="post-title-link" itemprop="url">真男人就上俄罗斯方块</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-27 13:36:20" itemprop="dateCreated datePublished" datetime="2021-01-27T13:36:20+08:00">2021-01-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-14 10:19:06" itemprop="dateModified" datetime="2022-03-14T10:19:06+08:00">2022-03-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BD%9C%E5%93%81%E9%9B%86/" itemprop="url" rel="index"><span itemprop="name">作品集</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>101</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这个游戏是一款双人合作向游戏，其中一个玩家控制俄罗斯方块的掉落，另外一个玩家控制小人移动。</p>
-<p>游戏目的：通过俄罗斯方块，无尽的往上跳。</p>
-<p>每到一定的高度，背景颜色会发生改变，如果掉下方块或者被方块砸中游戏结束。</p>
-<p><img src="/2021/01/27/%E7%9C%9F%E7%94%B7%E4%BA%BA%E5%B0%B1%E4%B8%8A%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/TT.png" alt="TT"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-	<div>
-	  
-	</div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1211,7 +1212,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1269,13 +1270,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">19k</span>
+    <span title="站点总字数">21k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">17 分钟</span>
+    <span title="站点阅读时长">19 分钟</span>
 </div>
 
         
