@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/yun.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/yun_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/yun_16x16.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="闫令琪老师的现代计算机图形学入门讲得非常好，很适合初学者学习。自己也想学习计算机图形学方面的知识，所以就打算边学边做笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GAMES101学习笔记">
+<meta property="og:url" content="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="寻云的布洛克">
+<meta property="og:description" content="闫令琪老师的现代计算机图形学入门讲得非常好，很适合初学者学习。自己也想学习计算机图形学方面的知识，所以就打算边学边做笔记。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-1.png">
+<meta property="og:image" content="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-2.png">
+<meta property="og:image" content="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-3.png">
+<meta property="og:image" content="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-4.png">
+<meta property="article:published_time" content="2021-09-10T05:36:20.000Z">
+<meta property="article:modified_time" content="2022-03-14T02:19:06.000Z">
+<meta property="article:author" content="DruidYun">
+<meta property="article:tag" content="图形学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-1.png">
+
+<link rel="canonical" href="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>GAMES101学习笔记 | 寻云的布洛克</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">寻云的布洛克</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活中的点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">23</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/DruidYun.jpg">
+      <meta itemprop="name" content="DruidYun">
+      <meta itemprop="description" content="如果你想做出让人享受的东西，那就享受做它的过程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="寻云的布洛克">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GAMES101学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-10 13:36:20" itemprop="dateCreated datePublished" datetime="2021-09-10T13:36:20+08:00">2021-09-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-14 10:19:06" itemprop="dateModified" datetime="2022-03-14T10:19:06+08:00">2022-03-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://sites.cs.ucsb.edu/~lingqi/">闫令琪老师</a>的<a target="_blank" rel="noopener" href="https://sites.cs.ucsb.edu/~lingqi/teaching/games101.html">现代计算机图形学入门</a>讲得非常好，很适合初学者学习。自己也想学习计算机图形学方面的知识，所以就打算边学边做笔记。<span id="more"></span></p>
+<h2 id="Overview-of-Computer-Graphics"><a href="#Overview-of-Computer-Graphics" class="headerlink" title="Overview of Computer Graphics"></a>Overview of Computer Graphics</h2><p>在这节课闫老师主要讲了：什么是图形学，为什么我们要学习图形学和课程内容</p>
+<h3 id="Why-study-Computer-Graphics"><a href="#Why-study-Computer-Graphics" class="headerlink" title="Why study Computer Graphics?"></a>Why study Computer Graphics?</h3><ul>
+<li>Applications: Video Games, Movies, Animations, Design, Visualization, VR&amp;AR, Digital Illustration, Simulation, GUI, Typography</li>
+</ul>
+<p>Fundamental Intellectual Challenges</p>
+<ul>
+<li>Creates and interacts with realistic virtual world</li>
+<li>Requires understanding of all aspects of physical world</li>
+<li>New computing methods, displays, technologies</li>
+</ul>
+<p>Technical Challenges</p>
+<ul>
+<li>Math of (perspective) projections, curves, surfaces</li>
+<li>Physics of lighting and shading</li>
+<li>Representing / operating shapes in 3D</li>
+<li>Animation / simulation</li>
+<li>3D graphics software programming and hardware(划掉)</li>
+</ul>
+<h3 id="Course-Topics-mainly-4-parts"><a href="#Course-Topics-mainly-4-parts" class="headerlink" title="Course Topics (mainly 4 parts)"></a>Course Topics (mainly 4 parts)</h3><ul>
+<li><p>Rasterization</p>
+</li>
+<li><p>Curves and Meshes</p>
+</li>
+<li><p>Ray Tracing</p>
+</li>
+<li><p>Animation / Simulation</p>
+<p><img src="/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-1.png" alt="Lesson1-1"></p>
+<p><img src="/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-2.png" alt="Lesson1-2"></p>
+<p><img src="/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-3.png" alt="Lesson1-3"></p>
+<p><img src="/2021/09/10/GAMES101%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Lesson1-4.png" alt="Lesson1-4"></p>
+</li>
+</ul>
+<h2 id="Review-of-Linear-Algebra"><a href="#Review-of-Linear-Algebra" class="headerlink" title="Review of Linear Algebra"></a>Review of Linear Algebra</h2><p>先占位</p>
+<h2 id="Transformation"><a href="#Transformation" class="headerlink" title="Transformation"></a>Transformation</h2><ul>
+<li><h3 id="Why-study-transformation-（为什么学习变换）"><a href="#Why-study-transformation-（为什么学习变换）" class="headerlink" title="Why study transformation （为什么学习变换）"></a>Why study transformation （为什么学习变换）</h3><h4 id="Modeling（模型）"><a href="#Modeling（模型）" class="headerlink" title="- Modeling（模型）"></a>- Modeling（模型）</h4><h4 id="Viewing-（视角）"><a href="#Viewing-（视角）" class="headerlink" title="- Viewing （视角）"></a>- Viewing （视角）</h4><p>（3D to 2D)Projection</p>
+</li>
+<li><h3 id="2D-transformations-rotation-scale-shear-（2D变换：旋转，缩放，错切）"><a href="#2D-transformations-rotation-scale-shear-（2D变换：旋转，缩放，错切）" class="headerlink" title="2D transformations: rotation,scale,shear （2D变换：旋转，缩放，错切）"></a>2D transformations: rotation,scale,shear （2D变换：旋转，缩放，错切）</h3><h4 id="Representing-transformations-using-matrices-（使用矩阵表示变换）"><a href="#Representing-transformations-using-matrices-（使用矩阵表示变换）" class="headerlink" title="- Representing transformations using matrices （使用矩阵表示变换）"></a>- Representing transformations using matrices （使用矩阵表示变换）</h4><h4 id="Rotation-scale-shear（旋转，缩放，错切）"><a href="#Rotation-scale-shear（旋转，缩放，错切）" class="headerlink" title="- Rotation,scale,shear（旋转，缩放，错切）"></a>- Rotation,scale,shear（旋转，缩放，错切）</h4></li>
+<li><h3 id="Homogeneous-coordinates（齐次坐标）"><a href="#Homogeneous-coordinates（齐次坐标）" class="headerlink" title="Homogeneous coordinates（齐次坐标）"></a>Homogeneous coordinates（齐次坐标）</h3></li>
+</ul>
+<ul>
+<li><h3 id="Composing-transforms（组合变换）"><a href="#Composing-transforms（组合变换）" class="headerlink" title="Composing transforms（组合变换）"></a>Composing transforms（组合变换）</h3></li>
+</ul>
+<ul>
+<li><h3 id="3D-tansfomation（3D变换）"><a href="#3D-tansfomation（3D变换）" class="headerlink" title="3D tansfomation（3D变换）"></a>3D tansfomation（3D变换）</h3></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	  
+	</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" rel="tag"># 图形学</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/13/%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B/" rel="prev" title="新的开始">
+      <i class="fa fa-chevron-left"></i> 新的开始
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/13/%E7%BB%A7%E7%BB%AD/" rel="next" title="继续">
+      继续 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview-of-Computer-Graphics"><span class="nav-number">1.</span> <span class="nav-text">Overview of Computer Graphics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-study-Computer-Graphics"><span class="nav-number">1.1.</span> <span class="nav-text">Why study Computer Graphics?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Course-Topics-mainly-4-parts"><span class="nav-number">1.2.</span> <span class="nav-text">Course Topics (mainly 4 parts)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review-of-Linear-Algebra"><span class="nav-number">2.</span> <span class="nav-text">Review of Linear Algebra</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transformation"><span class="nav-number">3.</span> <span class="nav-text">Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-study-transformation-%EF%BC%88%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AD%A6%E4%B9%A0%E5%8F%98%E6%8D%A2%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">Why study transformation （为什么学习变换）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Modeling%EF%BC%88%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="nav-number">3.1.1.</span> <span class="nav-text">- Modeling（模型）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Viewing-%EF%BC%88%E8%A7%86%E8%A7%92%EF%BC%89"><span class="nav-number">3.1.2.</span> <span class="nav-text">- Viewing （视角）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2D-transformations-rotation-scale-shear-%EF%BC%882D%E5%8F%98%E6%8D%A2%EF%BC%9A%E6%97%8B%E8%BD%AC%EF%BC%8C%E7%BC%A9%E6%94%BE%EF%BC%8C%E9%94%99%E5%88%87%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">2D transformations: rotation,scale,shear （2D变换：旋转，缩放，错切）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Representing-transformations-using-matrices-%EF%BC%88%E4%BD%BF%E7%94%A8%E7%9F%A9%E9%98%B5%E8%A1%A8%E7%A4%BA%E5%8F%98%E6%8D%A2%EF%BC%89"><span class="nav-number">3.2.1.</span> <span class="nav-text">- Representing transformations using matrices （使用矩阵表示变换）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation-scale-shear%EF%BC%88%E6%97%8B%E8%BD%AC%EF%BC%8C%E7%BC%A9%E6%94%BE%EF%BC%8C%E9%94%99%E5%88%87%EF%BC%89"><span class="nav-number">3.2.2.</span> <span class="nav-text">- Rotation,scale,shear（旋转，缩放，错切）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Homogeneous-coordinates%EF%BC%88%E9%BD%90%E6%AC%A1%E5%9D%90%E6%A0%87%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">Homogeneous coordinates（齐次坐标）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Composing-transforms%EF%BC%88%E7%BB%84%E5%90%88%E5%8F%98%E6%8D%A2%EF%BC%89"><span class="nav-number">3.4.</span> <span class="nav-text">Composing transforms（组合变换）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D-tansfomation%EF%BC%883D%E5%8F%98%E6%8D%A2%EF%BC%89"><span class="nav-number">3.5.</span> <span class="nav-text">3D tansfomation（3D变换）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DruidYun"
+      src="/images/DruidYun.jpg">
+  <p class="site-author-name" itemprop="name">DruidYun</p>
+  <div class="site-description" itemprop="description">如果你想做出让人享受的东西，那就享受做它的过程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/druidyun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;druidyun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:qaz814971852@163.com" title="E-Mail → mailto:qaz814971852@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fab fa-angellist"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DruidYun</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">62k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">56 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
