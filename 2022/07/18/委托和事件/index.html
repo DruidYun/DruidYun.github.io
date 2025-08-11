@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/yun.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/yun_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/yun_16x16.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="提出问题关于学习委托和事件，提出几个问题：  为什么我要学习委托和事件  委托和事件是什么  事件和委托是什么关系  我能用委托和事件来干什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="委托事件学习笔记">
+<meta property="og:url" content="http://example.com/2022/07/18/%E5%A7%94%E6%89%98%E5%92%8C%E4%BA%8B%E4%BB%B6/index.html">
+<meta property="og:site_name" content="寻云的布洛克">
+<meta property="og:description" content="提出问题关于学习委托和事件，提出几个问题：  为什么我要学习委托和事件  委托和事件是什么  事件和委托是什么关系  我能用委托和事件来干什么">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-18T02:00:00.000Z">
+<meta property="article:modified_time" content="2023-01-25T11:03:04.000Z">
+<meta property="article:author" content="DruidYun">
+<meta property="article:tag" content="游戏开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/07/18/%E5%A7%94%E6%89%98%E5%92%8C%E4%BA%8B%E4%BB%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>委托事件学习笔记 | 寻云的布洛克</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">寻云的布洛克</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活中的点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">24</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/%E5%A7%94%E6%89%98%E5%92%8C%E4%BA%8B%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/DruidYun.jpg">
+      <meta itemprop="name" content="DruidYun">
+      <meta itemprop="description" content="如果你想做出让人享受的东西，那就享受做它的过程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="寻云的布洛克">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          委托事件学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-18 10:00:00" itemprop="dateCreated datePublished" datetime="2022-07-18T10:00:00+08:00">2022-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-01-25 19:03:04" itemprop="dateModified" datetime="2023-01-25T19:03:04+08:00">2023-01-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h1><p>关于学习委托和事件，提出几个问题：</p>
+<ul>
+<li><p>为什么我要学习委托和事件</p>
+</li>
+<li><p>委托和事件是什么</p>
+</li>
+<li><p>事件和委托是什么关系</p>
+</li>
+<li><p>我能用委托和事件来干什么</p>
+<span id="more"></span></li>
+</ul>
+<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><h2 id="为什么要学习它"><a href="#为什么要学习它" class="headerlink" title="为什么要学习它"></a>为什么要学习它</h2><p>学习的原因，在实际的工程项目中在阅读他人的代码时，遇见了委托和事件。看到的时候一头雾水，不知道原理，使用方法，使用它能有什么方便的地方。每次看见它们俩，就憋的慌，因此来翻阅资料来了解。</p>
+<h2 id="委托和事件是什么"><a href="#委托和事件是什么" class="headerlink" title="委托和事件是什么"></a>委托和事件是什么</h2><h3 id="先谈谈委托的定义"><a href="#先谈谈委托的定义" class="headerlink" title="先谈谈委托的定义"></a>先谈谈委托的定义</h3><p>委托在《C#入门经典》这本书第一次出现时出现在函数章中，此书对委托的描述是：</p>
+<blockquote>
+<p>委托(delegate)是一种存储函数引用的类型。</p>
+</blockquote>
+<p>委托在微软的C#编程指南中，是这样描述的：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/reference-types">委托</a>是一种引用类型，表示对具有特定参数列表和返回类型的方法的引用。 在实例化委托时，你可以将其实例与任何具有兼容签名和返回类型的方法相关联。 你可以通过委托实例调用方法。。</p>
+</blockquote>
+<p>在菜鸟教程中：</p>
+<blockquote>
+<p>C# 中的委托（Delegate）类似于 C 或 C++ 中函数的指针。<strong>委托（Delegate）</strong> 是存有对某个方法的引用的一种引用类型变量。引用可在运行时被改变。</p>
+</blockquote>
+<p>看到了前两种描述，并不是很清楚。直到看见了菜鸟的描述，类似于C中的函数指针。因为被C语言的指针折磨过了，大概是明白什么意思了。先用自己的了解的东西进行引申的确是个不错的方法。</p>
+<p>先看一下C中的函数指针的声明</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="title function_">int</span><span class="params">(*Calculator)</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>再看一下C#中的委托</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">delegate</span> <span class="built_in">int</span> <span class="title">CalculatorDelegate</span>(<span class="params"><span class="built_in">int</span> x,<span class="built_in">int</span> y</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这两句是不是很像？因为C#是通过C/C++发展过来的，它通过委托这一数据类型，保留与函数指针相对应的这部分。</p>
+<h4 id="委托怎么用"><a href="#委托怎么用" class="headerlink" title="委托怎么用"></a>委托怎么用</h4><p>在使用委托的时候需要创建委托类型的实例和目标方法：（就先以我上面的那个已经声明好的委托来用）</p>
+<p>创建委托类型的实例</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CalculatorDelegate calculator;</span><br></pre></td></tr></table></figure>
+
+<p>也可以直接添加目标方法</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CalculatorDelegate calculator = <span class="keyword">new</span> CalculatorDelegate(目标方法); </span><br><span class="line"><span class="comment">//CalculatorDelegate(int(int,int) target),另外这样引用需要目标方法是静态类型</span></span><br></pre></td></tr></table></figure>
+
+<p>编译器提示的是目标方法需要返回值为int类型，有两个int参数。这一点和声明委托的时候一样，这也就是类型兼容。</p>
+<p>在这里我根据要求来写这个目标方法，写一个加法的方法和减法的方法。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">int</span> <span class="title">Add</span>(<span class="params"><span class="built_in">int</span> x,<span class="built_in">int</span> y</span>)</span> =&gt; x+y; <span class="comment">//这里使用了Lumbda箭头/表达式，直接返回x+y的值，下面同理</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="built_in">int</span> <span class="title">Minus</span>(<span class="params"><span class="built_in">int</span> x,<span class="built_in">int</span> y</span>)</span> =&gt; x-y;</span><br></pre></td></tr></table></figure>
+
+<p>这个时候将两个方法给委托</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Function</span>(<span class="params"><span class="built_in">char</span> symbol</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (symbol == <span class="string">&#x27;+&#x27;</span>)</span><br><span class="line">            calculator = <span class="keyword">new</span> CalculatorDelegate(Add);</span><br><span class="line">    					<span class="comment">//把方法的引用赋值给到了这个委托类型的的变量</span></span><br><span class="line">    					<span class="comment">//也可以简写成calculator = Add;</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (symbol == <span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">            calculator = <span class="keyword">new</span> CalculatorDelegate(Minus);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，调用委托，然后把这个Function改一下</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">int</span> <span class="title">Function</span>(<span class="params"><span class="built_in">char</span> symbol</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        calculator = Add;</span><br><span class="line">        <span class="keyword">if</span> (symbol == <span class="string">&#x27;+&#x27;</span>)</span><br><span class="line">            calculator = <span class="keyword">new</span> CalculatorDelegate(Add);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (symbol == <span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">            calculator = <span class="keyword">new</span> CalculatorDelegate(Minus);</span><br><span class="line">       <span class="comment">//return calculator.Invoke(6,5);//间接调用</span></span><br><span class="line">        <span class="keyword">return</span> calculator(<span class="number">6</span>, <span class="number">5</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的委托做了将方法进行简单的传参。</p>
+<h4 id="多播委托"><a href="#多播委托" class="headerlink" title="多播委托"></a>多播委托</h4><p>这里如果使用上面的例子不是很好了，所有换一个例子。</p>
+<p>这里声明一个返回值为空，参数是一个字符串类型的委托</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">TakeCareofPlantDele</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>我们这个委托名字叫做照料植物，名字做的有点长。</p>
+<p>接着实例化委托，和给他安排目标方法</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">TakeCareofPlantsDele plantsDele;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Function2</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        plantsDele = <span class="keyword">new</span> TakeCareofPlantsDele(Watering);<span class="comment">//如果没有给委托的变量赋值的时候，它等于null,第一个也可以使用+=符</span></span><br><span class="line">        plantsDele += <span class="keyword">new</span> TakeCareofPlantsDele(Insecticide);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Watering</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//对名字叫做name的植物浇水</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Insecticide</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//对名字叫做name的植物喷杀虫剂</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>多播委托(Multicast)，将多个方法封装进入委托中。这个时候就可以通过委托来间接调用封装在委托中的两个方法了</p>
+<p>调用委托</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plantsDele(<span class="string">&quot;Cactus&quot;</span>);<span class="comment">//照料仙人掌（浇水、杀虫）</span></span><br><span class="line">plantsDele(<span class="string">&quot;SunFlower&quot;</span>);<span class="comment">//照料向日葵（浇水、杀虫），也可以进行与仙人掌不同的更细致的“照料”，不举例子了</span></span><br></pre></td></tr></table></figure>
+
+<p>但是多播委托存在问题，委托会引用很多方法，如果是实例方法的话（非静态），也就是说它隶属与一个对象，如果我们引用这个方法的话，那么这个对象一定会存在内存中，即便没有其他引用变量引用这个对象，这个对象也不能进行释放，因为一旦释放，委托就不再能间接调用这个对象的方法了，所有委托可能导致内存泄漏。</p>
+<p>怎么出现这个问题？</p>
+<p>我们给照料植物的委托再给一个方法Fertilize(施肥)，但是不小心写成了=赋值符。这个时候问题就出现了。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plantsDele = <span class="keyword">new</span> TakeCareofPlantsDele(Watering);</span><br><span class="line">plantsDele += <span class="keyword">new</span> TakeCareofPlantsDele(Insecticide);</span><br><span class="line">plantsDele = <span class="keyword">new</span> TakeCareofPlantsDele(Fertilize);</span><br><span class="line"><span class="comment">//将施肥的方法直接赋值给了委托，之前的两个已经存在的就被“覆盖”了，不能间接调用，但仍然存在内存。</span></span><br></pre></td></tr></table></figure>
+
+<p>这种缺点（将+=写成=）也是事件、观察者模式出现的原因。</p>
+<h4 id="Action委托和Func委托"><a href="#Action委托和Func委托" class="headerlink" title="Action委托和Func委托"></a>Action委托和Func委托</h4><p>这两种委托不需要提前声明，由C#库提供的两种内置泛型委托。</p>
+<p>Action委托是返回值必须为空的委托，参数可以有也可以没有。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Action action1;<span class="comment">//返回值为空，参数列表也为空</span></span><br><span class="line">Action&lt;<span class="built_in">int</span>&gt; action2;<span class="comment">//返回值为空，有一个整型int参数</span></span><br><span class="line">Action&lt;<span class="built_in">int</span>, <span class="built_in">string</span>&gt; action3;<span class="comment">//返回值为空，有一个整型参数和一个字符串参数</span></span><br></pre></td></tr></table></figure>
+
+<p>Func委托是必须设置返回值的委托，参数可以有也可以没有，并且返回值类型必须在&lt;&gt;中最后一位。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Func&lt;<span class="built_in">int</span>&gt; func1;<span class="comment">//返回值为整型int，参数列表为空</span></span><br><span class="line">Func&lt;<span class="built_in">int</span>, <span class="built_in">string</span>&gt; func2;<span class="comment">//返回值为字符串，有一个整型int参数</span></span><br><span class="line">Func&lt;<span class="built_in">double</span>, <span class="built_in">double</span>, <span class="built_in">double</span>&gt; func3;<span class="comment">//返回值为双精度浮点型，两个双精度浮点型参数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>首先委托是事件的基础，在C#中，事件由event关键词修饰。同样先讲讲在不同地方的描述吧。</p>
+<p>在C#入门经典中，是这样说的：</p>
+<blockquote>
+<p>事件类似于异常，因为它们都由对象引发(抛出)，并且都可以通过我们提供的代码来处理。</p>
+</blockquote>
+<p>在C#编程指南中</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/class">类</a> 或对象可以通过事件向其他类或对象通知发生的相关事情。 发送（或引发）事件的类称为“发布者”，接收（或处理）事件的类称为“订阅者”。</p>
+</blockquote>
+<p>菜鸟教程的描述</p>
+<blockquote>
+<p><strong>事件（Event）</strong> 基本上说是一个用户操作，如按键、点击、鼠标移动等等，或者是一些提示信息，如系统生成的通知。应用程序需要在事件发生时响应事件。</p>
+</blockquote>
+<p>事件由五个部分组成：</p>
+<ul>
+<li>事件的拥有者【对象】</li>
+<li>事件【event关键词修饰】</li>
+<li>事件的响应者【对象】</li>
+<li>事件的处理器【方法（受到约束的类型兼容的方法）】</li>
+<li>事件的订阅关系【+=】</li>
+</ul>
+<p>事件必须由一个对象发出，由订阅这个事件的对象进行响应，并且进行处理。</p>
+<p>比如<u><strong>手机</strong></u>(事件的拥有者)有<u><strong>闹钟响了</strong></u>这个事件，<u><strong>你</strong></u>(事件响应者)**<u>订阅</u>**了这个事件，然后<u><strong>你看了一眼手机，抱怨了一句还早，然后把闹铃关了，继续睡</strong></u>(事件处理器)。(这个例子不是十分的妥善，那就继续吧)</p>
+<p>继续刚才的例子，你突然醒了想起今天还要上班，然后顾不得吃早饭，就匆匆出门了。可惜还是太晚了，你赶到了公司门口，看见了老板，不知道他为什么在门口等你。因为<u><strong>你</strong></u>(事件拥有者)<u><strong>迟到了</strong></u>(事件)，<u><strong>老板</strong></u>(事件响应者)<u><strong>专门在门口等你</strong></u>(订阅你迟到的事件)，最后<u><strong>夸了夸你，说你比上次迟到要早几分钟有进步，然后给记到了考勤上</strong></u></u>(事件处理器)。</p>
+<p>当<u><strong>时间</strong></u>(事件拥有者)<u><strong>到了饭点</strong></u>(事件)，<u><strong>你</strong></u>和<u><strong>同事</strong></u>(两个事件响应者)<u><strong>注意到时间到了</strong></u>(订阅了时间)准备去吃饭，到了饭堂，同事<u><strong>要了一份正常的套餐</strong></u>(事件处理器)，而你因为早上没吃饭，想着加餐，<u><strong>在正常的套餐的基础上多要了一些米多要了个鸡腿</strong></u>(事件处理器)。</p>
+<p><strong><u>以上例子皆为虚构，如有符合皆为碰瓷。</u></strong></p>
+<p>例子举完了，就用最后一个例子来特别简单的表示。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Time</span> <span class="comment">//事件拥有者</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">event</span> Action onNoon; <span class="comment">//事件的声明</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ToNoon</span>() <span class="comment">//一个触发事件的方法</span></span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(onNoon!=<span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            onNoon();     </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Worker1</span>:<span class="title">worker</span><span class="comment">//工人一 -&gt;你 //事件的响应者</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">EatLunch</span>()<span class="comment">//事件处理器</span></span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">base</span>.EatLunch();</span><br><span class="line">        EatMore();<span class="comment">//多吃一点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Worker2</span>:<span class="title">worker</span> <span class="comment">//事件的响应者</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">EatLunch</span>()<span class="comment">//事件响应者</span></span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">base</span>.EatLunch();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Canteen</span>:<span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    Time time;</span><br><span class="line">    Worker2 worker2;</span><br><span class="line">    Worker1 worker1;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        time.onNoon += worker1.EatLunch;<span class="comment">//工人1订阅到饭点</span></span><br><span class="line">        time.onNoon += worker2.EatLunch;<span class="comment">//工人2订阅到饭点</span></span><br><span class="line">        time.ToNoon();<span class="comment">//触发时间到了的事件</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个例子中用的是事件的简略声明的格式，是在event关键字后面加上了委托的泛型委托Action。</p>
+<p>简略声明格式：private/public + event key + Delegate + eventName (on + foo);</p>
+<p>事件的完整声明格式也用这个举例子。</p>
+<p>首先需要声明一个委托:</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">NoonEventHandler</span>()</span>;</span><br><span class="line"><span class="comment">//其中的EventHandler是命名规范，表明声明是用来作为事件的，不是用作委托传参，提高可读性</span></span><br></pre></td></tr></table></figure>
+
+<p>然后是对事件声明的完整格式，不常见，下面在Time的类中写</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Time</span> <span class="comment">//事件拥有者</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//委托的完整声明格式</span></span><br><span class="line">	<span class="keyword">private</span> NoonEventHandler noonEventHandler;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">event</span> NoonEventHandler onNoon </span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="keyword">add</span></span><br><span class="line">	    &#123;</span><br><span class="line">	        noonEventHandler += <span class="keyword">value</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">remove</span></span><br><span class="line">	    &#123;</span><br><span class="line">      		noonEventHandler -= <span class="keyword">value</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ToNoon</span>()</span></span><br><span class="line">	&#123;</span><br><span class="line"> 	   <span class="keyword">if</span> (noonEventHandler != <span class="literal">null</span>) <span class="comment">//这里从onNoon的事件变成了noonEventHandler的委托类型字段</span></span><br><span class="line"> 	       noonEventHandler();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>观察上面的结构，是不是发现这个很像是类的属性。对这点的研究，也就解决了我的下一个问题。</p>
+<h2 id="事件和委托是什么关系"><a href="#事件和委托是什么关系" class="headerlink" title="事件和委托是什么关系"></a>事件和委托是什么关系</h2><p>在反编译中，可以发现简略声明格式的情况时，自动生成了一个委托类型的字段(在后台，访问不到也看不到），用来存储事件处理器，就像完整声明格式里的一样。这种结构就像属性一样，是一种包装器，是面向对象的封装的体现，属性保护着字段不被非法的操作所污染，不被滥用，属性是字段的包装器，而事件保护着委托类型字段，不被外界滥用，只能获取它的+=，-=操作符，是委托类型字段的包装器。属性不是字段，而事件也不是委托类型字段。</p>
+<p>事件让程序更加安全，更好的维护。</p>
+<h2 id="我能用委托和事件来干什么"><a href="#我能用委托和事件来干什么" class="headerlink" title="我能用委托和事件来干什么"></a>我能用委托和事件来干什么</h2><p>委托是事件的基础，也是Lambda表达式的基础。在使用这些的时候都是在使用委托，另外在游戏开发中，有很多功能可以使用事件很方便的写出来，比如角色的死亡，在这件事件触发的时候会有很多地方需要依次做各种事情。还有到达某个区域触发一些事件，比如打开门，刷怪，进入对话等等的功能都可以用事件的订阅，回调来执行。</p>
+<p>在学习的过程参考了B站的Up主<strong>BeaverJoe</strong>老师的关于委托和事件的视频<a target="_blank" rel="noopener" href="https://space.bilibili.com/448507900/favlist?fid=1095302000&ftype=create">BeaverJoe的个人空间_哔哩哔哩_bilibili</a>，还有《C#入门经典》以及微软官方的资料，让我对委托和事件的有了自己的认识，虽然可能理解有地方欠妥，但在应用方面能够比较灵活的使用了。</p>
+<p>编辑器小功能：<br>输入【prop】后双击Tap:属性模板的快捷键<br>输入【ctor】后双击Tap:构造函数模板的快捷键</p>
+<p>一些用到的方法<br>【is操作符】检查对象是否与给定的类型兼容<br>【as操作符】用于检查在兼容的引用类型之间执行某些类型的转换（如果不兼容约会报错，返回null）</p>
+
+    </div>
+
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	  
+	</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" rel="tag"># 游戏开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/27/CGJ2022/" rel="prev" title="TrickAI">
+      <i class="fa fa-chevron-left"></i> TrickAI
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/20/Scroll%20View%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98/" rel="next" title="Scroll View的小问题">
+      Scroll View的小问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">提出问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">解决问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6%E4%B9%A0%E5%AE%83"><span class="nav-number">2.1.</span> <span class="nav-text">为什么要学习它</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A7%94%E6%89%98%E5%92%8C%E4%BA%8B%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.2.</span> <span class="nav-text">委托和事件是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E8%B0%88%E8%B0%88%E5%A7%94%E6%89%98%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">2.2.1.</span> <span class="nav-text">先谈谈委托的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A7%94%E6%89%98%E6%80%8E%E4%B9%88%E7%94%A8"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">委托怎么用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E6%92%AD%E5%A7%94%E6%89%98"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">多播委托</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Action%E5%A7%94%E6%89%98%E5%92%8CFunc%E5%A7%94%E6%89%98"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">Action委托和Func委托</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6"><span class="nav-number">2.2.2.</span> <span class="nav-text">事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%92%8C%E5%A7%94%E6%89%98%E6%98%AF%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="nav-number">2.3.</span> <span class="nav-text">事件和委托是什么关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E8%83%BD%E7%94%A8%E5%A7%94%E6%89%98%E5%92%8C%E4%BA%8B%E4%BB%B6%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88"><span class="nav-number">2.4.</span> <span class="nav-text">我能用委托和事件来干什么</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DruidYun"
+      src="/images/DruidYun.jpg">
+  <p class="site-author-name" itemprop="name">DruidYun</p>
+  <div class="site-description" itemprop="description">如果你想做出让人享受的东西，那就享受做它的过程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/druidyun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;druidyun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:druidyun@outlook.com" title="E-Mail → mailto:druidyun@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fab fa-angellist"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DruidYun</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">73k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:07</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
