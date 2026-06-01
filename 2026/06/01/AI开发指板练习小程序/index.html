@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/yun.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/yun_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/yun_16x16.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这次我尝试用 AI 帮自己做一个微信小程序吉他训练 App。目标不是做一个很大的音乐软件，而是先把自己练琴时最常遇到的问题做成随手可用的工具：指板音阶练习、视听和弦练习、调音器、节拍器。 MVP 的思路也比较明确：先在浏览器预览里把逻辑跑通，再迁移到微信小程序真机调试。当前阶段以指板训练为核心，其它功能先保留基础入口或学习区。这个选择很现实，因为指板练习最接近我的日常需求，也最容易验证是不是对练琴">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 AI 开发指板练习小程序">
+<meta property="og:url" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:site_name" content="寻云的布洛克">
+<meta property="og:description" content="这次我尝试用 AI 帮自己做一个微信小程序吉他训练 App。目标不是做一个很大的音乐软件，而是先把自己练琴时最常遇到的问题做成随手可用的工具：指板音阶练习、视听和弦练习、调音器、节拍器。 MVP 的思路也比较明确：先在浏览器预览里把逻辑跑通，再迁移到微信小程序真机调试。当前阶段以指板训练为核心，其它功能先保留基础入口或学习区。这个选择很现实，因为指板练习最接近我的日常需求，也最容易验证是不是对练琴">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/home.jpg">
+<meta property="og:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/fretboard.jpg">
+<meta property="og:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/landscape-practice.jpg">
+<meta property="og:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/landscape-question.jpg">
+<meta property="og:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/ear-training.jpg">
+<meta property="og:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/tuner.jpg">
+<meta property="og:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/metronome.jpg">
+<meta property="article:published_time" content="2026-06-01T09:05:00.000Z">
+<meta property="article:modified_time" content="2026-06-01T08:59:54.439Z">
+<meta property="article:author" content="DruidYun">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Codex">
+<meta property="article:tag" content="小程序">
+<meta property="article:tag" content="吉他">
+<meta property="article:tag" content="指板">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/home.jpg">
+
+<link rel="canonical" href="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>使用 AI 开发指板练习小程序 | 寻云的布洛克</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">寻云的布洛克</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活中的点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">29</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/DruidYun.jpg">
+      <meta itemprop="name" content="DruidYun">
+      <meta itemprop="description" content="如果你想做出让人享受的东西，那就享受做它的过程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="寻云的布洛克">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 AI 开发指板练习小程序
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-06-01 17:05:00 / 修改时间：16:59:54" itemprop="dateCreated datePublished" datetime="2026-06-01T17:05:00+08:00">2026-06-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E5%88%92/" itemprop="url" rel="index"><span itemprop="name">计划</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这次我尝试用 AI 帮自己做一个微信小程序吉他训练 App。目标不是做一个很大的音乐软件，而是先把自己练琴时最常遇到的问题做成随手可用的工具：指板音阶练习、视听和弦练习、调音器、节拍器。</p>
+<p>MVP 的思路也比较明确：先在浏览器预览里把逻辑跑通，再迁移到微信小程序真机调试。当前阶段以指板训练为核心，其它功能先保留基础入口或学习区。这个选择很现实，因为指板练习最接近我的日常需求，也最容易验证是不是对练琴有帮助。</p>
+<p><img src="/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/home.jpg" alt="主页"></p>
+<span id="more"></span>
+
+<h2 id="从一个想法到一个小程序"><a href="#从一个想法到一个小程序" class="headerlink" title="从一个想法到一个小程序"></a>从一个想法到一个小程序</h2><p>最开始我只是想做一个“练指板的东西”。但真正开始做以后，需求很快变成一组具体问题：</p>
+<ul>
+<li>随机出一个指板点位，用户从 12 个音名里选择。</li>
+<li>支持首调练习，选择调性后在指板上找 do / re / mi。</li>
+<li>音名要合并显示升降号，比如 C#/Db。</li>
+<li>学习、练习、测试三个模式要三选一。</li>
+<li>学习模式只看音名、品号和点击听音，不出题。</li>
+<li>练习模式才随机出题。</li>
+<li>测试模式计时答题，并且必须使用无音名提示的练习指板。</li>
+</ul>
+<p>AI 在这里的帮助，是把这些零散想法快速拆成页面、状态和组件。主页负责总入口，指板页负责核心练习，视听、调音、节拍先做基础能力。它不会自动知道我真正想怎么练，但能把第一个可运行版本很快搭出来。</p>
+<p><img src="/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/fretboard.jpg" alt="指板练习页"></p>
+<h2 id="指板练习最难的是规则"><a href="#指板练习最难的是规则" class="headerlink" title="指板练习最难的是规则"></a>指板练习最难的是规则</h2><p>指板练习表面上像是在画一张图，实际难点是规则。吉他不是在格子空白处发声，而是在弦和品的位置上按下去，所以音名和高亮点必须标在线/弦的位置。0 品品丝要在 1 品前面，而且需要加粗；3、5、7、9、12、15、17 品要有特殊圆点，12 品还要处理成双圆点。</p>
+<p>普通页面里，0-17 品只能作为缩放预览图展示，所以它要更窄、更长条，减少左右空白，并且在学习、练习、测试模式下都要居中。真正练习时还需要全屏横屏，这样才能完整看清 0-17 品。</p>
+<p><img src="/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/landscape-practice.jpg" alt="横屏练习设置"></p>
+<p>横屏以后又出现了新的细节：0 品左侧空白和 17 品右侧空白要一致；全屏调节里不需要“尺寸”和“品距”按钮，而是需要“偏移”滑条，负数整体向左，正数整体向右；高品位品距要逐渐变窄，还要提供递减程度滑条，最低等距，最高接近真实吉他比例。</p>
+<p>这些问题都不是“让 AI 画个指板”能自然解决的。每一次调整，都是把真实乐器和练习习惯翻译成界面规则。</p>
+<p><img src="/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/landscape-question.jpg" alt="横屏答题"></p>
+<h2 id="指型和音阶不是矩形高亮"><a href="#指型和音阶不是矩形高亮" class="headerlink" title="指型和音阶不是矩形高亮"></a>指型和音阶不是矩形高亮</h2><p>指型区域一开始很容易被做成矩形高亮，但这并不符合真实练习。MI、SOL、LA、SI、RE 等小跨度指型，以及后续的大跨度 7 个指型，都应该按音阶图示里的形状显示，而不是粗暴框住一块区域。</p>
+<p>这里暴露出一个典型问题：AI 可以根据名字写出“指型按钮”和“高亮区域”，但如果我没有明确告诉它 SOL 型、Fa 型等指型里有哪些音，它就可能遗漏或放错。后来我不断补充规则：默认小跨度，大跨度通过按钮切换；支持是否显示升降音；按钮文字要居中；指型范围要真正按音的位置高亮。</p>
+<p>这类需求让我更清楚地意识到，AI 写代码很快，但音乐知识和练习方法必须由我校对。</p>
+<h2 id="测试模式要为速度服务"><a href="#测试模式要为速度服务" class="headerlink" title="测试模式要为速度服务"></a>测试模式要为速度服务</h2><p>测试功能后来明确成 1 分钟测试：统计一分钟内答对多少。后续可以升级为 60s、90s、120s 可选，去掉 30s。点击测试后先显示 3 秒倒计时；测试中显眼展示剩余时间、答对数、总答数和正确率；测试结束弹窗显示本次成绩、正确率、历史最高、本机排名，并保存本机历史前 10 条。</p>
+<p>为了速度，测试中不播放题目音和答题反馈音。这个决定很关键，因为练习模式可以强调听音和反馈，但测试模式要保证题目刷新快，声音反而会拖慢节奏。</p>
+<p>这也是开发过程中反复出现的取舍：功能不是越多越好，不同模式要为不同目的服务。</p>
+<h2 id="音频：理想是吉他声音，现实是包体限制"><a href="#音频：理想是吉他声音，现实是包体限制" class="headerlink" title="音频：理想是吉他声音，现实是包体限制"></a>音频：理想是吉他声音，现实是包体限制</h2><p>我希望视听和调音器里的声音尽量像吉他。中间尝试过 Philharmonia 吉他素材，但授权和包体风险都比较大，所以回退到合成音。后来又创建临时分支试听 Iowa Guitar 和 FreePats，考虑到微信小程序主包 2MB 限制，先只尝试 FreePats 小包。</p>
+<p>WAV 转 MP3 后体积确实明显减少，但又出现声音不均匀、没有转调、音量不一致的问题。后续更合理的方案，是把 FreePats 音频处理成少量采样，然后用 WebAudio 的 playbackRate 转调，再做增益校准。</p>
+<p>指板上每个音名也需要绑定对应吉他音，点击可以播放。练习时可以选择是否出题就播放音、是否答完题后播放音。答题反馈音和弦音不能同时播放，要先提示正确或错误，再间隔播放对应音。到测试模式里，则直接禁用声音，避免干扰速度。</p>
+<h2 id="视听和弦：能播还不等于能练"><a href="#视听和弦：能播还不等于能练" class="headerlink" title="视听和弦：能播还不等于能练"></a>视听和弦：能播还不等于能练</h2><p>视听和弦模块新增了和弦学习区：用户可以选择根音和和弦类型，然后播放对应的吉他合成和弦。同时保留随机听辨题逻辑，支持柱式和分解播放。</p>
+<p><img src="/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/ear-training.jpg" alt="视听和弦练习"></p>
+<p>这块的问题是，界面生成出来很快，但声音质量和训练价值需要慢慢打磨。和弦听起来是否自然、不同根音音量是否均衡、题目难度是否合理，都必须实际听。之前页面里还出现过“开发相关”“素材策略”等对用户无意义的字样，后来也需要删掉。真正给用户看的界面，不应该暴露开发过程里的临时说明。</p>
+<h2 id="调音器：最依赖真机测试"><a href="#调音器：最依赖真机测试" class="headerlink" title="调音器：最依赖真机测试"></a>调音器：最依赖真机测试</h2><p>调音器这部分最不确定。最后决定移除参考音播放入口，保留目标弦和最近标准弦显示，并增加“高了、低了、准了”的提示音。提示音还需要节流，否则频率识别一抖动，就可能连续乱响。</p>
+<p><img src="/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/tuner.jpg" alt="调音器"></p>
+<p>它的问题不是界面，而是可靠性。微信小程序里的麦克风权限、真机录音接口、环境噪音、频率检测算法，都会影响识别。AI 可以帮我写算法草稿，但调音器必须拿真机和真实吉他反复测试。它不像普通页面，不能只靠“看起来对”。</p>
+<h2 id="节拍器：定时器要靠谱"><a href="#节拍器：定时器要靠谱" class="headerlink" title="节拍器：定时器要靠谱"></a>节拍器：定时器要靠谱</h2><p>节拍器现在有 BPM、拍号、第一拍重音、开始、Tap 等基础功能，也新增了复合节奏学习音频。</p>
+<p><img src="/2026/06/01/AI%E5%BC%80%E5%8F%91%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F/metronome.jpg" alt="节拍器"></p>
+<p>复合节奏包括前八后十六、前十六后八、四个十六、附点八分加十六、十六加附点八、附点四分加八分、切分节奏、三连音、摇摆八分、3-3-2、反拍切分。这里有一个重要规则：复合节奏播放与普通节拍器互斥，页面隐藏或卸载时要停止所有定时器。</p>
+<p>节拍器看起来简单，但如果节奏漂移，功能就没意义。AI 很容易先写一个能响的版本，后面还要继续确认小程序环境里的计时稳定性。</p>
+<h2 id="界面和上线问题"><a href="#界面和上线问题" class="headerlink" title="界面和上线问题"></a>界面和上线问题</h2><p>这轮还处理了很多看起来小、但影响体验的问题。</p>
+<p>主题上增加了三种模式：跟随系统、白天模式、夜晚模式。夜晚模式里出现过过曝和亮色问题，后续需要修复深色变量。</p>
+<p>首页标题栏“吉他训练”一开始不居中，后来改成自定义标题栏。底部菜单在手机上出现过两排，原因是系统 TabBar 和自定义 TabBar 同时存在，后续需要强制隐藏原生 TabBar。平板大屏上底部菜单字体太小，所以自定义 TabBar 还要做大屏字号适配。</p>
+<p>音频协议说明也需要处理。它不能影响使用，所以放到底部，做成小而窄的长条，并且底部留出滚动空白，避免被菜单遮住。GPL 说明要尽可能短，最终只保留两行：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">音频：FreePats Guitar，GPLv3+ 特例许可。</span><br><span class="line">Gitee/GitHub：DruidYun/guitar-trainer-audio-sources</span><br></pre></td></tr></table></figure>
+
+<p>上线时还问过微信小程序上架需要做什么、小程序信息怎么填、版本描述和审核提交信息怎么写。上传时也遇到过包体超过 2MB 的问题，所以素材来源、许可说明和主包体积都必须一起考虑。MVP 阶段还要去掉“MVP”字样，功能入口也尽量不要写“正在开发”，避免影响用户体验。</p>
+<h2 id="用-AI-开发时暴露的问题"><a href="#用-AI-开发时暴露的问题" class="headerlink" title="用 AI 开发时暴露的问题"></a>用 AI 开发时暴露的问题</h2><p>这次最大的感受是，AI 能快速推进项目，但它也会快速放大不清楚的地方。</p>
+<p>需求不清楚时，AI 会先给一个“看起来完整”的实现。它可能有页面、有按钮、有状态，但练习规则未必正确。比如学习模式不该出题，测试模式必须用无音名指板，题目不能连续出现同一个选项或同一点位，这些都要我明确指出。</p>
+<p>界面也会比核心逻辑更快成型。截图里已经能看到主页、指板、视听、调音和节拍，但真正难的是题库、音频、频率识别、计时精度、成绩记录和真机表现。</p>
+<p>小程序环境也和普通网页不一样。权限、横屏、音频、录音、微信开发者工具和手机真机的差异，都会带来额外问题。AI 写出的代码能跑起来只是第一步，真正稳定还需要大量测试。</p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>下一阶段要先收敛，而不是继续加功能：</p>
+<ul>
+<li>把指板音名识别练习做稳定。</li>
+<li>明确小跨度和大跨度每个指型的题目范围。</li>
+<li>完成 60s、90s、120s 测试和本机排行榜。</li>
+<li>修正指型遗漏音和错误音。</li>
+<li>真机测试调音器的频率识别和提示音节流。</li>
+<li>测试节拍器和复合节奏的定时稳定性。</li>
+<li>处理 FreePats 音频的转调和音量校准。</li>
+<li>做微信小程序上传前的包体、许可和审核信息整理。</li>
+</ul>
+<p>这篇文章记录的是一个 MVP 逐渐变清楚的过程。AI 帮我把想法变成了能看的原型，但真正让它变成可用工具的，是一轮轮把问题说清楚、把规则补完整、再回到真机上验证。</p>
+
+    </div>
+
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	  
+	</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/Codex/" rel="tag"># Codex</a>
+              <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"># 小程序</a>
+              <a href="/tags/%E5%90%89%E4%BB%96/" rel="tag"># 吉他</a>
+              <a href="/tags/%E6%8C%87%E6%9D%BF/" rel="tag"># 指板</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/06/01/%E6%8A%8AAI%E5%8F%98%E6%88%90%E5%81%9A%E4%BA%8B%E7%9A%84%E5%B7%A5%E5%85%B7/" rel="prev" title="把AI变成做事的工具">
+      <i class="fa fa-chevron-left"></i> 把AI变成做事的工具
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E4%B8%80%E4%B8%AA%E6%83%B3%E6%B3%95%E5%88%B0%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">从一个想法到一个小程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E6%9C%80%E9%9A%BE%E7%9A%84%E6%98%AF%E8%A7%84%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">指板练习最难的是规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%9E%8B%E5%92%8C%E9%9F%B3%E9%98%B6%E4%B8%8D%E6%98%AF%E7%9F%A9%E5%BD%A2%E9%AB%98%E4%BA%AE"><span class="nav-number">3.</span> <span class="nav-text">指型和音阶不是矩形高亮</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%BC%8F%E8%A6%81%E4%B8%BA%E9%80%9F%E5%BA%A6%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">测试模式要为速度服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%EF%BC%9A%E7%90%86%E6%83%B3%E6%98%AF%E5%90%89%E4%BB%96%E5%A3%B0%E9%9F%B3%EF%BC%8C%E7%8E%B0%E5%AE%9E%E6%98%AF%E5%8C%85%E4%BD%93%E9%99%90%E5%88%B6"><span class="nav-number">5.</span> <span class="nav-text">音频：理想是吉他声音，现实是包体限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E5%90%AC%E5%92%8C%E5%BC%A6%EF%BC%9A%E8%83%BD%E6%92%AD%E8%BF%98%E4%B8%8D%E7%AD%89%E4%BA%8E%E8%83%BD%E7%BB%83"><span class="nav-number">6.</span> <span class="nav-text">视听和弦：能播还不等于能练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E9%9F%B3%E5%99%A8%EF%BC%9A%E6%9C%80%E4%BE%9D%E8%B5%96%E7%9C%9F%E6%9C%BA%E6%B5%8B%E8%AF%95"><span class="nav-number">7.</span> <span class="nav-text">调音器：最依赖真机测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8A%82%E6%8B%8D%E5%99%A8%EF%BC%9A%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A6%81%E9%9D%A0%E8%B0%B1"><span class="nav-number">8.</span> <span class="nav-text">节拍器：定时器要靠谱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E5%92%8C%E4%B8%8A%E7%BA%BF%E9%97%AE%E9%A2%98"><span class="nav-number">9.</span> <span class="nav-text">界面和上线问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-AI-%E5%BC%80%E5%8F%91%E6%97%B6%E6%9A%B4%E9%9C%B2%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">10.</span> <span class="nav-text">用 AI 开发时暴露的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E6%AD%A5"><span class="nav-number">11.</span> <span class="nav-text">下一步</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DruidYun"
+      src="/images/DruidYun.jpg">
+  <p class="site-author-name" itemprop="name">DruidYun</p>
+  <div class="site-description" itemprop="description">如果你想做出让人享受的东西，那就享受做它的过程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/druidyun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;druidyun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:druidyun@outlook.com" title="E-Mail → mailto:druidyun@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fab fa-angellist"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DruidYun</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">84k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:16</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
