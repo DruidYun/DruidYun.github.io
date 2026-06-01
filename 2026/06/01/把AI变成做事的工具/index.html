@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/yun.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/yun_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/yun_16x16.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最近我想重新整理这个博客，也想重新整理自己接下来要做的事情。以前这里更多是零散的学习笔记、项目记录和阶段性的想法；现在我希望它变成一个更长期的工作台：把想法放进来，把过程留下来，把结果沉淀下来。 这次新的开始，第一件事就是借助 Codex 把旧博客整理了一遍。我们先确认了 Hexo 项目的结构，找到了真正的站点目录 MyHexoBlog，检查了文章、主题配置和生成规则。然后把过去的文章统一加上 a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="把AI变成做事的工具">
+<meta property="og:url" content="http://example.com/2026/06/01/%E6%8A%8AAI%E5%8F%98%E6%88%90%E5%81%9A%E4%BA%8B%E7%9A%84%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="寻云的布洛克">
+<meta property="og:description" content="最近我想重新整理这个博客，也想重新整理自己接下来要做的事情。以前这里更多是零散的学习笔记、项目记录和阶段性的想法；现在我希望它变成一个更长期的工作台：把想法放进来，把过程留下来，把结果沉淀下来。 这次新的开始，第一件事就是借助 Codex 把旧博客整理了一遍。我们先确认了 Hexo 项目的结构，找到了真正的站点目录 MyHexoBlog，检查了文章、主题配置和生成规则。然后把过去的文章统一加上 a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-01T02:35:00.000Z">
+<meta property="article:modified_time" content="2026-06-01T02:40:37.860Z">
+<meta property="article:author" content="DruidYun">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Codex">
+<meta property="article:tag" content="小程序">
+<meta property="article:tag" content="树莓派">
+<meta property="article:tag" content="硬件">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2026/06/01/%E6%8A%8AAI%E5%8F%98%E6%88%90%E5%81%9A%E4%BA%8B%E7%9A%84%E5%B7%A5%E5%85%B7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>把AI变成做事的工具 | 寻云的布洛克</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">寻云的布洛克</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活中的点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">28</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/06/01/%E6%8A%8AAI%E5%8F%98%E6%88%90%E5%81%9A%E4%BA%8B%E7%9A%84%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/DruidYun.jpg">
+      <meta itemprop="name" content="DruidYun">
+      <meta itemprop="description" content="如果你想做出让人享受的东西，那就享受做它的过程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="寻云的布洛克">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          把AI变成做事的工具
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2026-06-01 10:35:00 / 修改时间：10:40:37" itemprop="dateCreated datePublished" datetime="2026-06-01T10:35:00+08:00">2026-06-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E5%88%92/" itemprop="url" rel="index"><span itemprop="name">计划</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近我想重新整理这个博客，也想重新整理自己接下来要做的事情。以前这里更多是零散的学习笔记、项目记录和阶段性的想法；现在我希望它变成一个更长期的工作台：把想法放进来，把过程留下来，把结果沉淀下来。</p>
+<p>这次新的开始，第一件事就是借助 Codex 把旧博客整理了一遍。我们先确认了 Hexo 项目的结构，找到了真正的站点目录 <code>MyHexoBlog</code>，检查了文章、主题配置和生成规则。然后把过去的文章统一加上 <code>archived: true</code>，保留它们的原链接和归档页访问，同时写了一个新的首页生成脚本，让首页只展示未归档的新文章。最后重新安装依赖、清理、构建，并用本地服务验证：首页只显示新内容，归档页仍然能看到旧文章，旧文章和图片链接也没有断。</p>
+<p>这个流程让我意识到，AI 不只是用来回答问题，也可以成为一个稳定的执行伙伴。很多过去觉得麻烦、容易搁置的事情，现在可以被拆成明确步骤：先确认现状，再制定计划，再逐步执行，最后验证结果。博客整理只是开始，接下来我想把这种方式用到更多实际项目里。</p>
+<span id="more"></span>
+
+<h2 id="指板练习小程序"><a href="#指板练习小程序" class="headerlink" title="指板练习小程序"></a>指板练习小程序</h2><p>我想做一个帮助练习指板的小程序。它不应该只是一个简单的计时器，而是能根据练习目标安排内容，比如音阶、把位、节奏、随机题目和复盘记录。</p>
+<p>AI 可以参与的部分很多：一开始可以帮我拆需求，确认最小可用版本；开发时可以协助写页面、状态管理和练习逻辑；后面还能根据记录生成练习建议。这个项目适合从一个很小的版本开始，比如先做“随机音名 + 指板位置练习 + 每日记录”，之后再慢慢加入更复杂的训练模式。</p>
+<h2 id="树莓派上的-AI-助手"><a href="#树莓派上的-AI-助手" class="headerlink" title="树莓派上的 AI 助手"></a>树莓派上的 AI 助手</h2><p>我还想在树莓派上部署一个小型 AI 助手。这里我暂时把它叫作“小龙虾”。它可以先从一个本地服务开始，负责接收指令、执行脚本、查看设备状态，之后再逐步接入语音、传感器或者局域网里的其他设备。</p>
+<p>这个方向的核心不是一次性做出很复杂的机器人，而是建立一个可维护的基础：树莓派系统环境、服务启动方式、日志、远程访问、安全策略、模型或 API 的调用方式。这些内容都适合边做边写成博客，因为每一步都可能成为以后复用的部署流程。</p>
+<h2 id="硬件管理和自动化"><a href="#硬件管理和自动化" class="headerlink" title="硬件管理和自动化"></a>硬件管理和自动化</h2><p>除了树莓派，我也想尝试更多硬件管理相关的事情。比如管理家里的设备状态，记录传感器数据，控制灯光、电机、屏幕，或者把一些重复操作做成自动化。</p>
+<p>AI 在这里更像一个调度和解释层：它可以帮我生成脚本、整理设备协议、分析日志，也可以把“我想要什么效果”翻译成更具体的控制流程。真正重要的是把硬件项目做成可追踪的系统，而不是只停留在一次成功的实验。</p>
+<h2 id="用-Codex-记录过程"><a href="#用-Codex-记录过程" class="headerlink" title="用 Codex 记录过程"></a>用 Codex 记录过程</h2><p>以后我希望在 Codex 里做事时，顺手把过程沉淀成文章。一个项目不一定等完全完成才写，反而应该在几个关键节点记录下来：</p>
+<ul>
+<li>想做什么，为什么要做。</li>
+<li>当前环境是什么，遇到了什么限制。</li>
+<li>拆成了哪些步骤，每一步怎么验证。</li>
+<li>哪些方案被放弃了，原因是什么。</li>
+<li>最后得到的结果是什么，下一步是什么。</li>
+</ul>
+<p>这样写博客的意义就不只是“发布文章”，而是给自己保留一份可以回看的工程记录。等项目变多以后，这些记录也会变成自己的知识库。</p>
+<h2 id="接下来"><a href="#接下来" class="headerlink" title="接下来"></a>接下来</h2><p>新的博客会从这些实际项目开始：先把网站本身管理好，再做指板练习小程序，然后推进树莓派上的“小龙虾”AI 助手，最后逐步扩展到硬件管理和自动化。</p>
+<p>我不想再只把想法停留在脑子里。接下来要做的是把它们一个个落到文件、命令、代码、设备和文章里。AI 会参与其中，但真正的目标不是“使用 AI”，而是借助 AI 把事情做完。</p>
+
+    </div>
+
+    
+    
+    
+
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	  
+	</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/Codex/" rel="tag"># Codex</a>
+              <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"># 小程序</a>
+              <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag"># 树莓派</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag"># 硬件</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/06/01/%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B-2026/" rel="prev" title="新的开始">
+      <i class="fa fa-chevron-left"></i> 新的开始
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%9D%BF%E7%BB%83%E4%B9%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">指板练习小程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E7%9A%84-AI-%E5%8A%A9%E6%89%8B"><span class="nav-number">2.</span> <span class="nav-text">树莓派上的 AI 助手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E7%AE%A1%E7%90%86%E5%92%8C%E8%87%AA%E5%8A%A8%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">硬件管理和自动化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-Codex-%E8%AE%B0%E5%BD%95%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">用 Codex 记录过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5"><span class="nav-number">5.</span> <span class="nav-text">接下来</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DruidYun"
+      src="/images/DruidYun.jpg">
+  <p class="site-author-name" itemprop="name">DruidYun</p>
+  <div class="site-description" itemprop="description">如果你想做出让人享受的东西，那就享受做它的过程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/druidyun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;druidyun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:druidyun@outlook.com" title="E-Mail → mailto:druidyun@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fab fa-angellist"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DruidYun</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">80k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:13</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
